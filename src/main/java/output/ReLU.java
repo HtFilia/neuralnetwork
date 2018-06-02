@@ -23,8 +23,6 @@
  */
 package output;
 
-import output.OutputFunction;
-
 /**
  *
  * @author Lucas HtFilia Lebihan

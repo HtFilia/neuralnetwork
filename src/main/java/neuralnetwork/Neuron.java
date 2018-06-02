@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package main;
+package neuralnetwork;
 
 import output.ReLU;
 import output.OutputFunction;
@@ -29,6 +29,7 @@ import input.LinearCombination;
 import input.InputFunction;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -55,15 +56,10 @@ public class Neuron {
     private double error;
     
     public Neuron() {
-        this.name = "";
-        this.layer = null;
         this.inConnections = new ArrayList<>();
         this.outConnections = new ArrayList<>();
         this.inFunction = new LinearCombination();
         this.outFunction = new ReLU();
-        this.inputTotal = 0;
-        this.output = 0;
-        this.error = 0;
     }
     
     public Neuron(InputFunction inFunction, OutputFunction outFunction) {
@@ -73,19 +69,73 @@ public class Neuron {
         if (outFunction == null) {
             throw new IllegalArgumentException("Output Function can't be null.");
         }
-        this.name = "";
-        this.layer = null;
+        
         this.inConnections = new ArrayList<>();
         this.outConnections = new ArrayList<>();
         this.inFunction = inFunction;
         this.outFunction = outFunction;
-        this.inputTotal = 0;
-        this.output = 0;
-        this.error = 0;
     }
     
     public double getOutput() {
         return this.output;
+    }
+    
+    public void addConnection(Layer layer) {
+        layer.getNeurons().forEach((neuron) -> {
+            this.addConnection(neuron);
+        });
+    }
+    
+    public void addConnection(Neuron neuron) {
+        Connection connection = new Connection(this, neuron);
+        this.addOutConnection(connection);
+        neuron.addInConnection(connection);
+    }
+    
+    public void addInConnection(Connection connection) {
+        this.inConnections.add(connection);
+    }
+    
+    public void addOutConnection(Connection connection) {
+        this.outConnections.add(connection);
+    }
+    
+    public Connection getConnection(final Neuron neuron) {
+        Connection connection = null;
+        for (Connection inConnection : this.inConnections) {
+            
+        }
+        return connection;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.name);
+        hash = 89 * hash + Objects.hashCode(this.layer);
+        hash = 89 * hash + Objects.hashCode(this.inConnections);
+        hash = 89 * hash + Objects.hashCode(this.outConnections);
+        hash = 89 * hash + Objects.hashCode(this.inFunction);
+        hash = 89 * hash + Objects.hashCode(this.outFunction);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Neuron other = (Neuron) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return Objects.equals(this.layer, other.layer);
     }
     
     public void calculate() {

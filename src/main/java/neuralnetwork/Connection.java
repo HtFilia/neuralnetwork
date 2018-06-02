@@ -21,7 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package main;
+package neuralnetwork;
+
+import java.util.Objects;
 
 /**
  *
@@ -62,5 +64,38 @@ public class Connection {
     
     public double getWeightedInput() {
         return weight * this.inNeuron.getOutput();
+    }
+    
+    public Neuron getInNeuron() {
+        return this.inNeuron;
+    }
+    
+    public Neuron getOutNeuron() {
+        return this.outNeuron;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Connection)) {
+            return false;
+        }
+        
+        Connection connection = (Connection) o;
+        if (this.inNeuron.equals(connection.getInNeuron())) {
+            if (this.outNeuron.equals(connection.getOutNeuron())) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 17 * hash + (int) (Double.doubleToLongBits(this.weight) ^ (Double.doubleToLongBits(this.weight) >>> 32));
+        hash = 17 * hash + Objects.hashCode(this.inNeuron);
+        hash = 17 * hash + Objects.hashCode(this.outNeuron);
+        return hash;
     }
 }

@@ -24,7 +24,7 @@
 package input;
 
 import java.util.List;
-import main.Connection;
+import neuralnetwork.Connection;
 
 /**
  *

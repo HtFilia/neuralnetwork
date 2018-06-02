@@ -21,7 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package main;
+package neuralnetwork;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -29,4 +32,47 @@ package main;
  */
 public class Layer {
     
+    private String name;
+    
+    private List<Neuron> neurons;
+    
+    public Layer() {
+        this.neurons = new ArrayList<>();
+    }
+    
+    public void addNeuron(Neuron neuron) {
+        this.neurons.add(neuron);
+    }
+    
+    public void addNeurons(List<Neuron> neurons) {
+        neurons.forEach((neuron) -> {
+            this.neurons.add(neuron);
+        });
+    }
+    
+    public List<Neuron> getNeurons() {
+        return this.neurons;
+    }
+    
+    public Neuron getNeuron(int index) {
+        return this.neurons.get(index);
+    }
+    
+    public void addConnection(Layer layer) {
+        this.neurons.forEach((neuron) -> {
+            neuron.addConnection(layer);
+        });
+    }
+    
+    public void addConnection(Neuron outNeuron) {
+        this.neurons.forEach((neuron) -> {
+            neuron.addConnection(outNeuron);
+        });
+    }
+    
+    public void calculate() {
+        this.neurons.forEach((neuron) -> {
+            neuron.calculate();
+        });
+    }
 }
