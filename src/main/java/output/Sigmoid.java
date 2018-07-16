@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 Lucas HtFilia Lebihan.
+ * Copyright 2018 Fibo.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,23 +27,15 @@ package output;
  *
  * @author Lucas HtFilia Lebihan
  */
-public class ReLU extends OutputFunction {
+public class Sigmoid extends OutputFunction {
     
     @Override
     public double getValue(double input) {
-        if (input > 0) {
-            return input;
-        } else {
-            return 0;
-        }
+        return 1 / (1 - Math.exp(-input));
     }
     
     @Override
     public double getDerivativeValue(double input) {
-        if (input > 0) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return getValue(input) * (1 - getValue(input));
     }
 }

@@ -103,11 +103,17 @@ public class Neuron {
     public Connection getConnection(final Neuron neuron) {
         Connection connection = null;
         for (Connection inConnection : this.inConnections) {
-            
+            //TODO
         }
         return connection;
     }
 
+        
+    public void calculate() {
+        this.inputTotal = this.inFunction.getValue(this.inConnections);
+        this.output = this.outFunction.getValue(this.inputTotal);
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -136,10 +142,5 @@ public class Neuron {
             return false;
         }
         return Objects.equals(this.layer, other.layer);
-    }
-    
-    public void calculate() {
-        this.inputTotal = this.inFunction.getValue(this.inConnections);
-        this.output = this.outFunction.getValue(this.inputTotal);
     }
 }
