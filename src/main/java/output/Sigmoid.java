@@ -28,14 +28,4 @@ package output;
  * @author Lucas HtFilia Lebihan
  */
 public class Sigmoid extends OutputFunction {
-    
-    @Override
-    public double getValue(double input) {
-        return 1 / (1 - Math.exp(-input));
-    }
-    
-    @Override
-    public double getDerivativeValue(double input) {
-        return getValue(input) * (1 - getValue(input));
-    }
 }

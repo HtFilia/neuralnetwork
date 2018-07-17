@@ -23,76 +23,14 @@
  */
 package neuralnetwork;
 
+import input.InputFunction;
 import java.util.ArrayList;
 import java.util.List;
+import output.OutputFunction;
 
 /**
  *
  * @author Lucas HtFilia Lebihan
  */
 public class NeuralNetwork {
-    
-    private List<Layer> layers;
-    
-    private List<Neuron> inNeurons;
-    
-    private List<Neuron> outNeurons;
-    
-    public NeuralNetwork() {
-        this.layers = new ArrayList<>();
-        this.inNeurons = new ArrayList<>();
-        this.outNeurons = new ArrayList<>();
-    }
-    
-    public void addLayer(Layer layer) {
-        this.layers.add(layer);
-    }
-    
-    public void addLayers(List<Layer> layers) {
-        layers.forEach((layer) -> {
-            this.layers.add(layer);
-        });
-    }
-    
-    public void addInputNeuron(Neuron neuron) {
-        this.inNeurons.add(neuron);
-    }
-    
-    public void addInputNeurons(List<Neuron> neurons) {
-        neurons.forEach((neuron) -> {
-            this.inNeurons.add(neuron);
-        });
-    }
-    
-    public void addOutputNeuron(Neuron neuron) {
-        this.outNeurons.add(neuron);
-    }
-    
-    public void addOutputNeurons(List<Neuron> neurons) {
-        neurons.forEach((neuron) -> {
-            this.outNeurons.add(neuron);
-        });
-    }
-    
-    public void addConnectionsToLayers() {
-        if (this.inNeurons == null) {
-            throw new NullPointerException("Can't connect to Input Neurons.");
-        }
-        if (this.outNeurons == null) {
-            throw new NullPointerException("Can't connect to Output Neurons.");
-        }
-        if (this.layers == null) {
-            throw new NullPointerException("Can't connect to Layers of Neural Network.");
-        }
-        
-        for (int i = 0; i < this.layers.size() - 1; ++i) {
-            this.layers.get(i).addConnection(this.layers.get(i+1));
-        }
-        this.inNeurons.forEach((neuron) -> {
-            neuron.addConnection(this.layers.get(0));
-        });
-        this.outNeurons.forEach((neuron) -> {
-            this.layers.get(this.layers.size()-1).addConnection(neuron);
-        });
-    }
 }

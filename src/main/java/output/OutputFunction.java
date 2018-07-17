@@ -28,6 +28,4 @@ package output;
  * @author Lucas HtFilia Lebihan
  */
 abstract public class OutputFunction {
-    abstract public double getValue(double input);
-    abstract public double getDerivativeValue(double input);
 }

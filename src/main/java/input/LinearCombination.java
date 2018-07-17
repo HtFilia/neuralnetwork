@@ -31,15 +31,4 @@ import neuralnetwork.Connection;
  * @author Lucas HtFilia Lebihan
  */
 public class LinearCombination extends InputFunction {
-    
-    @Override
-    public double getValue(List<Connection> inConnections) {
-        double output = 0;
-        
-        for (Connection connection : inConnections) {
-            output += connection.getWeightedInput();
-        }
-        
-        return output;
-    }
 }

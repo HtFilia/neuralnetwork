@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 Lucas Lebihan <HtFilia @ github.com>.
+ * Copyright 2018 Fibo.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,12 +23,9 @@
  */
 package neuralnetwork;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
- * @author Lucas HtFilia Lebihan
+ * @author Fibo
  */
-public class Layer {
+public class Weight {
 }
