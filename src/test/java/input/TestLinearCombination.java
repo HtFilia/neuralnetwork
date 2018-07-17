@@ -21,21 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package output;
+package input;
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  *
- * @author Lucas HtFilia Lebihan
+ * @author Fibo
  */
-public class Sigmoid extends OutputFunction {
+public class TestLinearCombination {
     
-    @Override
-    public double getValue(double input) {
-        return 1 / (1 + Math.exp(-input));
-    }
-    
-    @Override
-    public double getDerivativeValue(double input) {
-        return Math.exp(-input) / Math.pow(1 + Math.exp(-input), 2);
+    @Test
+    public void ValueTest() {
+        double[] inputs1 = {0, 0, 0};
+        double[] inputs2 = {0, 0.1, 0.8};
+        double[] weights1 = {0, 0, 0};
+        double[] weights2 = {0.4, 0.2, 0.5};
+        InputFunction inputFunction = new LinearCombination();
+        assertEquals(0, inputFunction.getValue(inputs1, weights1), 0.1);
+        assertEquals(0.4, inputFunction.getValue(inputs2, weights2), 0.1);
     }
 }

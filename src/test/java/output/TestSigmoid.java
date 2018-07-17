@@ -23,19 +23,30 @@
  */
 package output;
 
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
 /**
  *
- * @author Lucas HtFilia Lebihan
+ * @author Fibo
  */
-public class Sigmoid extends OutputFunction {
-    
-    @Override
-    public double getValue(double input) {
-        return 1 / (1 + Math.exp(-input));
+public class TestSigmoid {
+
+    @Test
+    public void ValueTest() {
+        OutputFunction outputFunction = new Sigmoid();
+        assertEquals(0.5, outputFunction.getValue(0), 0.1);
+        assertEquals(0.27, outputFunction.getValue(-1), 0.1);
+        assertEquals(0.73, outputFunction.getValue(1), 0.1);
+        assertEquals(0.98, outputFunction.getValue(4), 0.1);
     }
     
-    @Override
-    public double getDerivativeValue(double input) {
-        return Math.exp(-input) / Math.pow(1 + Math.exp(-input), 2);
+    @Test
+    public void DerivativeTest() {
+        OutputFunction outputFunction = new Sigmoid();
+        assertEquals(0.25, outputFunction.getDerivativeValue(0), 0.1);
+        assertEquals(0.19, outputFunction.getDerivativeValue(-1), 0.1);
+        assertEquals(0.19, outputFunction.getDerivativeValue(1), 0.1);
+        assertEquals(0.01, outputFunction.getDerivativeValue(4), 0.1);
     }
 }
