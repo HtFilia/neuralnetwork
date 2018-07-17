@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 Lucas Lebihan <HtFilia @ github.com>.
+ * Copyright 2018 Fibo.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package output;
+package neuralnetwork;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *
- * @author Lucas HtFilia Lebihan
+ * @author Fibo
  */
-abstract public class OutputFunction {
+public class TestLayer {
     
-    abstract double getValue(double input);
+    public static NeuralNetwork neural;
     
-    abstract double getDerivativeValue(double input);
+    @BeforeClass
+    public static void initNetwork() {
+        neural = new NeuralNetwork();
+    }
+    
+    @Test
+    public void CreationLayerTest() {
+        Layer layer = new Layer(neural);
+        assertNotEquals(null, layer);
+        assertEquals("Layer #0", layer.getName());
+    }
 }

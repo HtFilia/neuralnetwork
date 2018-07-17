@@ -33,4 +33,14 @@ import output.OutputFunction;
  * @author Lucas HtFilia Lebihan
  */
 public class NeuralNetwork {
+    
+    private List<Layer> layers;
+    
+    public NeuralNetwork() {
+        this.layers = new ArrayList<>();
+    }
+    
+    public List<Layer> getLayers() {
+        return layers;
+    }
 }

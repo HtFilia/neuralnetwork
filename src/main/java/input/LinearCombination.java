@@ -31,4 +31,16 @@ import neuralnetwork.Connection;
  * @author Lucas HtFilia Lebihan
  */
 public class LinearCombination extends InputFunction {
+    
+    @Override
+    public double getValue(double[] inputs, double[] weights) {
+        if (inputs.length != weights.length) {
+            throw new IllegalArgumentException("Should be same length.");
+        }
+        double res = 0;
+        for (int compteur = 0; compteur < inputs.length; compteur++) {
+            res += inputs[compteur] * weights[compteur];
+        }
+        return res;
+    }
 }

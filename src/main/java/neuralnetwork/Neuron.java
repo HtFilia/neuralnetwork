@@ -36,4 +36,44 @@ import java.util.Objects;
  * @author Lucas HtFilia Lebihan
  */
 public class Neuron {
+    
+    private String name;
+    
+    private Layer layer;
+    
+    private double output;
+    
+    private List<Connection> inputConnections;
+    
+    private List<Connection> outputConnections;
+    
+    private double error;
+    
+    private InputFunction inputFunction;
+    
+    private OutputFunction outputFunction;
+    
+    public Neuron(Layer layer, InputFunction inputFunction, 
+            OutputFunction outputFunction) {
+        if (layer == null) {
+            throw new IllegalArgumentException("Layer can't be null.");
+        }
+        if (inputFunction == null) {
+            throw new IllegalArgumentException("Input Function can't be null.");
+        }
+        if (outputFunction == null) {
+            throw new IllegalArgumentException("Output Function can't be null.");
+        }
+        this.layer = layer;
+        this.inputFunction = inputFunction;
+        this.outputFunction = outputFunction;
+        this.inputConnections = new ArrayList<>();
+        this.outputConnections = new ArrayList<>();
+        String name = "Neuron #" + layer.getNeurons().size() + ", " + layer.getName();
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
 }

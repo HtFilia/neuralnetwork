@@ -28,4 +28,22 @@ package output;
  * @author Lucas HtFilia Lebihan
  */
 public class ReLU extends OutputFunction {
+    
+    @Override
+    public double getValue(double input) {
+        if (input > 0) {
+            return input;
+        } else {
+            return 0;
+        }
+    }
+    
+    @Override
+    public double getDerivativeValue(double input) {
+        if (input > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

@@ -31,4 +31,5 @@ import neuralnetwork.Connection;
  * @author Lucas HtFilia Lebihan
  */
 abstract public class InputFunction {
+    abstract public double getValue(double[] inputs, double[] weights);
 }

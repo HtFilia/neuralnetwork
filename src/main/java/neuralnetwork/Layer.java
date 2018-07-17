@@ -31,4 +31,28 @@ import java.util.List;
  * @author Lucas HtFilia Lebihan
  */
 public class Layer {
+    
+    private String name;
+    
+    private NeuralNetwork neuralNetwork;
+    
+    private List<Neuron> neurons;
+    
+    public Layer(NeuralNetwork neuralNetwork) {
+        if (neuralNetwork == null) {
+            throw new IllegalArgumentException("Neural Network can't be null.");
+        }
+        this.neuralNetwork = neuralNetwork;
+        this.neurons = new ArrayList<>();
+        String name = "Layer #" + neuralNetwork.getLayers().size();
+        this.name = name;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public List<Neuron> getNeurons() {
+        return neurons;
+    }
 }
