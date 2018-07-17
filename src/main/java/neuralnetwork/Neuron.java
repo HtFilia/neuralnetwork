@@ -76,4 +76,24 @@ public class Neuron {
     public String getName() {
         return name;
     }
+    
+    public List<Connection> getInputConnections() {
+        return inputConnections;
+    }
+    
+    public List<Connection> getOutputConnections() {
+        return outputConnections;
+    }
+    
+    private void connectOutNeuron(Neuron outNeuron) {
+        Connection connection = new Connection(this, outNeuron);
+        outputConnections.add(connection);
+        outNeuron.getInputConnections().add(connection);
+    }
+    
+    protected void connectOutLayer(Layer outLayer) {
+        outLayer.getNeurons().forEach((neuron) -> {
+            connectOutNeuron(neuron);
+        });
+    }
 }

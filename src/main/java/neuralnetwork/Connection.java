@@ -30,4 +30,28 @@ import java.util.Objects;
  * @author Lucas HtFilia Lebihan
  */
 public class Connection {
+    
+    private final Neuron inNeuron;
+    
+    private final Neuron outNeuron;
+    
+    private Weight weight;
+    
+    public Connection(Neuron inNeuron, Neuron outNeuron) {
+        this.inNeuron = inNeuron;
+        this.outNeuron = outNeuron;
+        this.weight = new Weight();
+    }
+    
+    public Neuron getInNeuron() {
+        return inNeuron;
+    }
+    
+    public Neuron getOutNeuron() {
+        return outNeuron;
+    }
+    
+    public Weight getWeight() {
+        return weight;
+    }
 }

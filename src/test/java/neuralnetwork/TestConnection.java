@@ -25,6 +25,7 @@ package neuralnetwork;
 
 import input.InputFunction;
 import input.LinearCombination;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,37 +36,39 @@ import output.Sigmoid;
  *
  * @author Fibo
  */
-public class TestNeuralNetwork {
+public class TestConnection {
+    
+    private static NeuralNetwork neural;
     
     private static InputFunction inputFunction;
     
     private static OutputFunction outputFunction;
     
+    private static Layer layer;
+    
     @BeforeClass
-    public static void InitFunctions() {
+    public static void initNeuralNetwork() {
+        neural = new NeuralNetwork();
+        layer = new Layer(neural);
         inputFunction = new LinearCombination();
         outputFunction = new Sigmoid();
     }
     
     @Test
-    public void CreationNeuralNetworkTest() {
-        NeuralNetwork neural = new NeuralNetwork();
-        assertNotEquals(null, neural);
-    }
-    
-    @Test
-    public void RandomizedWeigthsTest() {
-        NeuralNetwork neural = new NeuralNetwork();
-        Layer inputLayer = new Layer(neural);
-        Layer outputLayer = new Layer(neural);
-        int[] numberNeurons = {4, 5};
-        neural.init(2, numberNeurons, inputLayer, outputLayer, inputFunction, outputFunction);
-        neural.getHiddenLayers().forEach((Layer layer) -> {
-            layer.getNeurons().forEach((Neuron neuron) -> {
-                neuron.getOutputConnections().forEach((Connection connection) -> {
-                    assertNotEquals(0, connection.getWeight().getValue());
-                });
-            });
-        });
+    public void CreationConnectionTest() {
+        Neuron inNeuron = new Neuron(layer, inputFunction, outputFunction);
+        Neuron outNeuron = new Neuron(layer, inputFunction, outputFunction);
+        Connection connection = new Connection(inNeuron, outNeuron);
+        assertNotEquals(null, connection);
+        assertEquals(inNeuron, connection.getInNeuron());
+        assertEquals(outNeuron, connection.getOutNeuron());
+        assertEquals(0, connection.getWeight().getError(), 0);
+        assertEquals(0, connection.getWeight().getValue(), 0);
+        connection.getWeight().randomize();
+        assertNotEquals(0, connection.getWeight().getValue(), 0);
+        connection.getWeight().setValue(10);
+        connection.getWeight().setError(8);
+        assertEquals(8, connection.getWeight().getError(), 0);
+        assertEquals(10, connection.getWeight().getValue(), 0);
     }
 }

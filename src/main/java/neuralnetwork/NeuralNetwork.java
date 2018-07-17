@@ -34,13 +34,92 @@ import output.OutputFunction;
  */
 public class NeuralNetwork {
     
-    private List<Layer> layers;
+    private Layer inputLayer;
+    
+    private final List<Layer> hiddenLayers;
+    
+    private Layer outputLayer;
     
     public NeuralNetwork() {
-        this.layers = new ArrayList<>();
+        this.hiddenLayers = new ArrayList<>();
     }
     
-    public List<Layer> getLayers() {
-        return layers;
+    public List<Layer> getHiddenLayers() {
+        return hiddenLayers;
+    }
+    
+    public Layer getInputLayer() {
+        return inputLayer;
+    }
+    
+    public Layer getOutputLayer() {
+        return outputLayer;
+    }
+    
+    public void init(int numberLayers, int[] numberNeurons, 
+            Layer inputLayer, Layer outputLayer, InputFunction inputFunction, 
+            OutputFunction outputFunction) {
+        if (inputLayer == null) {
+            throw new IllegalArgumentException("Input Layer can't be null.");
+        }
+        if (outputLayer == null) {
+            throw new IllegalArgumentException("Output Layer can't be null.");
+        }
+        if (numberLayers != numberNeurons.length) {
+            throw new IllegalArgumentException("Should have as much Layers as number of Neurons.");
+        }
+        if (inputFunction == null) {
+            throw new IllegalArgumentException("Input Function can't be null");
+        }
+        if (outputFunction == null) {
+            throw new IllegalArgumentException("Output Function can't be null");
+        }
+        
+        for (int incrementLayers = 0; incrementLayers < numberLayers; incrementLayers++) {
+            Layer layer = new Layer(this);
+            for (int incrementNeurons = 0; incrementNeurons < numberNeurons[incrementLayers]; incrementNeurons++) {
+                layer.getNeurons().add(new Neuron(layer, inputFunction, outputFunction));
+            }
+            hiddenLayers.add(layer);
+        }
+        this.inputLayer = inputLayer;
+        this.outputLayer = outputLayer;
+        connectLayers();
+        randomizeWeights();
+    }
+    
+    private void connectLayers() {
+        
+        // Input Layer to Hidden Layer
+        inputLayer.connectOutLayer(hiddenLayers.get(0));
+        
+        // Hidden Layers between themselves
+        for (int compteur = 0; compteur < hiddenLayers.size() - 2; compteur++) {
+            hiddenLayers.get(compteur).connectOutLayer(hiddenLayers.get(compteur + 1));
+        }
+        
+        // Hidden Layer to Output Layer
+        hiddenLayers.get(hiddenLayers.size() - 1).connectOutLayer(outputLayer);
+    }
+    
+    private void randomizeWeights() {
+        
+        // Input Layer 
+        inputLayer.getNeurons().forEach((Neuron neuron) -> {
+            neuron.getOutputConnections().forEach((connection) -> {
+                connection.getWeight().randomize();
+            });
+        });
+        
+        // Hidden Layers
+        hiddenLayers.forEach((layer) -> {
+            layer.getNeurons().forEach((Neuron neuron) -> {
+                neuron.getOutputConnections().forEach((connection) -> {
+                    connection.getWeight().randomize();
+                });
+            });
+        });
+        
+        // No need for Output Layer cause already done
     }
 }

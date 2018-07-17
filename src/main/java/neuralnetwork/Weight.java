@@ -23,9 +23,36 @@
  */
 package neuralnetwork;
 
+import java.util.Random;
+
 /**
  *
  * @author Fibo
  */
 public class Weight {
+    
+    private double weight;
+    
+    private double error;
+    
+    public double getValue() {
+        return weight;
+    }
+    
+    public double getError() {
+        return error;
+    }
+    
+    public void setValue(double weight) {
+        this.weight = weight;
+    }
+    
+    public void setError(double error) {
+        this.error = error;
+    }
+    
+    public void randomize() {
+        Random rand = new Random();
+        this.weight = rand.nextDouble();
+    }
 }

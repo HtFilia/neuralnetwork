@@ -44,7 +44,7 @@ public class Layer {
         }
         this.neuralNetwork = neuralNetwork;
         this.neurons = new ArrayList<>();
-        String name = "Layer #" + neuralNetwork.getLayers().size();
+        String name = "Layer #" + neuralNetwork.getHiddenLayers().size();
         this.name = name;
     }
     
@@ -54,5 +54,11 @@ public class Layer {
     
     public List<Neuron> getNeurons() {
         return neurons;
+    }
+    
+    protected void connectOutLayer(Layer outLayer) {
+        neurons.forEach((neuron) -> {
+            neuron.connectOutLayer(outLayer);
+        });
     }
 }
