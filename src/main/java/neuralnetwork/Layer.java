@@ -61,4 +61,10 @@ public class Layer {
             neuron.connectOutLayer(outLayer);
         });
     }
+    
+    protected void calculateValues() {
+        neurons.forEach((neuron) -> {
+            neuron.calculateValue();
+        });
+    }
 }

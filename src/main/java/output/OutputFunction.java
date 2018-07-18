@@ -29,7 +29,7 @@ package output;
  */
 abstract public class OutputFunction {
     
-    abstract double getValue(double input);
+    abstract public double getValue(double input);
     
-    abstract double getDerivativeValue(double input);
+    abstract public double getDerivativeValue(double input);
 }

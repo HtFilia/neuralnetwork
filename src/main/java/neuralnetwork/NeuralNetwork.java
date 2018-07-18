@@ -84,8 +84,10 @@ public class NeuralNetwork {
         }
         this.inputLayer = inputLayer;
         this.outputLayer = outputLayer;
+        addBiases();
         connectLayers();
         randomizeWeights();
+        
     }
     
     private void connectLayers() {
@@ -121,5 +123,52 @@ public class NeuralNetwork {
         });
         
         // No need for Output Layer cause already done
+    }
+    
+    public void calculateValues() {
+        
+        // No need for Input Layer
+        
+        // Hidden Layers
+        hiddenLayers.forEach((layer) -> {
+            layer.getNeurons().forEach((Neuron neuron) -> {
+                neuron.calculateValue();
+            });
+        });
+        
+        // Output Layer
+        outputLayer.calculateValues();
+    }
+    
+    private void addBiases() {
+        //TODO
+    }
+    
+    public void calculateErrors(double[] expected) {
+        calculateOutputErrors(expected);
+        calculateHiddenErrors();
+    }
+    
+    private void calculateOutputErrors(double[] expected) {
+        
+        for (int compteur = 0; compteur < outputLayer.getNeurons().size() - 1; compteur++) {
+            Neuron neuron = outputLayer.getNeurons().get(compteur);
+            double newError = neuron.getOutputFunction().getDerivativeValue(neuron.getInput()) *
+                    (neuron.getActivation() - expected[compteur]);
+            outputLayer.getNeurons().get(compteur).setError(newError);
+        }
+    }
+    
+    private void calculateHiddenErrors() {
+        //TODO
+    }
+    
+    public void setInputLayer(double[] inputs) {
+        if (inputs.length != inputLayer.getNeurons().size()) {
+            throw new IllegalArgumentException("Should have same number of Neurons than inputs.");
+        }
+        for (int compteur = 0; compteur < inputs.length; compteur++) {
+            inputLayer.getNeurons().get(compteur).setActivation(inputs[compteur]);
+        }
     }
 }

@@ -41,11 +41,13 @@ public class Neuron {
     
     private Layer layer;
     
-    private double output;
-    
     private List<Connection> inputConnections;
     
     private List<Connection> outputConnections;
+    
+    private double input;
+    
+    private double activation;
     
     private double error;
     
@@ -77,12 +79,40 @@ public class Neuron {
         return name;
     }
     
+    public double getActivation() {
+        return activation;
+    }
+    
+    public void setActivation(double activation) {
+        this.activation = activation;
+    }
+    
+    public double getInput() {
+        return input;
+    }
+    
+    public double getError() {
+        return error;
+    }
+    
+    public void setError(double error) {
+        this.error = error;
+    }
+    
     public List<Connection> getInputConnections() {
         return inputConnections;
     }
     
     public List<Connection> getOutputConnections() {
         return outputConnections;
+    }
+    
+    public InputFunction getInputFunction() {
+        return inputFunction;
+    }
+    
+    public OutputFunction getOutputFunction() {
+        return outputFunction;
     }
     
     private void connectOutNeuron(Neuron outNeuron) {
@@ -95,5 +125,16 @@ public class Neuron {
         outLayer.getNeurons().forEach((neuron) -> {
             connectOutNeuron(neuron);
         });
+    }
+    
+    protected void calculateValue() {
+        double[] activations = new double[inputConnections.size() - 1];
+        double[] weights = new double[inputConnections.size() - 1];
+        for (int compteur = 0; compteur < inputConnections.size() - 1; compteur++) {
+            activations[compteur] = inputConnections.get(compteur).getInNeuron().getActivation();
+            weights[compteur] = inputConnections.get(compteur).getWeight().getValue();
+        }
+        input = inputFunction.getValue(activations, weights);
+        activation = outputFunction.getValue(input);
     }
 }
