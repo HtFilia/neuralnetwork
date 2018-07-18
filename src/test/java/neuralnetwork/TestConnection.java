@@ -71,4 +71,25 @@ public class TestConnection {
         assertEquals(8, connection.getWeight().getError(), 0);
         assertEquals(10, connection.getWeight().getValue(), 0);
     }
+    
+    @Test
+    public void ConnectNeuronsTest() {
+        Neuron inNeuron = new Neuron(layer, inputFunction, outputFunction);
+        Neuron outNeuron = new Neuron(layer, inputFunction, outputFunction);
+        inNeuron.connectOutNeuron(outNeuron);
+        assertEquals(1, inNeuron.getOutputConnections().size());
+        assertEquals(1, outNeuron.getInputConnections().size());
+        assertEquals(inNeuron.getOutputConnections().get(0), outNeuron.getInputConnections().get(0));
+    }
+    
+    @Test
+    public void ConnectNeuronToLayerTest() {
+        Layer layer2 = new Layer(neural);
+        Neuron inNeuron = new Neuron(layer, inputFunction, outputFunction);
+        Neuron outNeuron = new Neuron(layer2, inputFunction, outputFunction);
+        inNeuron.connectOutLayer(layer2);
+        assertEquals(1, inNeuron.getOutputConnections().size());
+        assertEquals(1, outNeuron.getInputConnections().size());
+        assertEquals(inNeuron.getOutputConnections().get(0), outNeuron.getInputConnections().get(0));
+    }
 }

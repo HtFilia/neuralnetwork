@@ -68,4 +68,22 @@ public class TestNeuralNetwork {
             });
         });
     }
+    
+    @Test
+    public void ErrorsTest() {
+        NeuralNetwork neural = new NeuralNetwork();
+        Layer inputLayer = new Layer(neural);
+        inputLayer.addNeurons(2, inputFunction, outputFunction);
+        Layer outputLayer = new Layer(neural);
+        outputLayer.addNeuron(inputFunction, outputFunction);
+        int[] numberNeurons = {2};
+        double[] inputs = {0.0, 1.0};
+        neural.init(1, numberNeurons, inputLayer, outputLayer, inputFunction, outputFunction);
+        neural.setInputLayer(inputs);
+        neural.calculateValues();
+        double[] expected = {1};
+        neural.calculateErrors(expected);
+        System.out.println("output: " + neural.getOutputLayer().getNeurons().get(0).getActivation());
+        System.out.println("error: " + neural.getOutputLayer().getNeurons().get(0).getError());
+    }
 }

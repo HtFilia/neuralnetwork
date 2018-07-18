@@ -23,8 +23,10 @@
  */
 package neuralnetwork;
 
+import input.InputFunction;
 import java.util.ArrayList;
 import java.util.List;
+import output.OutputFunction;
 
 /**
  *
@@ -56,8 +58,18 @@ public class Layer {
         return neurons;
     }
     
+    public void addNeuron(InputFunction inputFunction, OutputFunction outputFunction) {
+        neurons.add(new Neuron(this, inputFunction, outputFunction));
+    }
+    
+    public void addNeurons(int numberNeurons, InputFunction inputFunction, OutputFunction outputFunction) {
+        for (int count = 0; count < numberNeurons; count++) {
+            addNeuron(inputFunction, outputFunction);
+        }
+    }
+    
     protected void connectOutLayer(Layer outLayer) {
-        neurons.forEach((neuron) -> {
+        neurons.forEach((Neuron neuron) -> {
             neuron.connectOutLayer(outLayer);
         });
     }

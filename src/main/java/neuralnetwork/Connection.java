@@ -23,8 +23,6 @@
  */
 package neuralnetwork;
 
-import java.util.Objects;
-
 /**
  *
  * @author Lucas HtFilia Lebihan

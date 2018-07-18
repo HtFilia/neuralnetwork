@@ -87,7 +87,6 @@ public class NeuralNetwork {
         addBiases();
         connectLayers();
         randomizeWeights();
-        
     }
     
     private void connectLayers() {
@@ -150,7 +149,6 @@ public class NeuralNetwork {
     }
     
     private void calculateOutputErrors(double[] expected) {
-        
         for (int compteur = 0; compteur < outputLayer.getNeurons().size() - 1; compteur++) {
             Neuron neuron = outputLayer.getNeurons().get(compteur);
             double newError = neuron.getOutputFunction().getDerivativeValue(neuron.getInput()) *
@@ -160,7 +158,17 @@ public class NeuralNetwork {
     }
     
     private void calculateHiddenErrors() {
-        //TODO
+        for (int countLayer = hiddenLayers.size(); countLayer == 0; countLayer--) {
+            Layer currentLayer = hiddenLayers.get(countLayer);
+            for (int countNeuron = 0; countNeuron < currentLayer.getNeurons().size() - 1; countNeuron++) {
+                Neuron currentNeuron = currentLayer.getNeurons().get(countNeuron);
+                double[] weights = currentNeuron.getOutputWeights();
+                double[] errors = currentNeuron.getOutputErrors();
+                double newError = currentNeuron.getOutputFunction().getDerivativeValue(currentNeuron.getInput()) *
+                        currentNeuron.getInputFunction().getValue(errors, weights);
+                currentLayer.getNeurons().get(countNeuron).setError(newError);
+            }
+        }
     }
     
     public void setInputLayer(double[] inputs) {

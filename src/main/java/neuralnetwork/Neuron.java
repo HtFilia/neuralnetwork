@@ -23,13 +23,10 @@
  */
 package neuralnetwork;
 
-import output.ReLU;
 import output.OutputFunction;
-import input.LinearCombination;
 import input.InputFunction;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *
@@ -115,26 +112,47 @@ public class Neuron {
         return outputFunction;
     }
     
-    private void connectOutNeuron(Neuron outNeuron) {
+    public void connectOutNeuron(Neuron outNeuron) {
         Connection connection = new Connection(this, outNeuron);
         outputConnections.add(connection);
         outNeuron.getInputConnections().add(connection);
     }
     
-    protected void connectOutLayer(Layer outLayer) {
-        outLayer.getNeurons().forEach((neuron) -> {
-            connectOutNeuron(neuron);
-        });
+    public void connectOutLayer(Layer outLayer) {
+        for (int countNeuron = 0; countNeuron < outLayer.getNeurons().size() - 1; countNeuron++) {
+            connectOutNeuron(outLayer.getNeurons().get(countNeuron));
+        }
+    }
+    
+    public double[] getOutputWeights() {
+        double[] weights = new double[outputConnections.size() - 1];
+        for (int currentConnection = 0; currentConnection < outputConnections.size() - 1; currentConnection++) {
+            weights[currentConnection] = outputConnections.get(currentConnection).getWeight().getValue();
+        }
+        return weights;
+    }
+    
+    public double[] getOutputErrors() {
+        double[] errors = new double[outputConnections.size() - 1];
+        for (int currentConnection = 0; currentConnection < outputConnections.size() - 1; currentConnection++) {
+            Neuron outNeuron = outputConnections.get(currentConnection).getOutNeuron();
+            errors[currentConnection] = outNeuron.getError();
+        }
+        return errors;
     }
     
     protected void calculateValue() {
-        double[] activations = new double[inputConnections.size() - 1];
-        double[] weights = new double[inputConnections.size() - 1];
-        for (int compteur = 0; compteur < inputConnections.size() - 1; compteur++) {
-            activations[compteur] = inputConnections.get(compteur).getInNeuron().getActivation();
-            weights[compteur] = inputConnections.get(compteur).getWeight().getValue();
+        try {
+            double[] activations = new double[inputConnections.size() - 1];
+            double[] weights = new double[inputConnections.size() - 1];
+            for (int compteur = 0; compteur < inputConnections.size() - 1; compteur++) {
+                activations[compteur] = inputConnections.get(compteur).getInNeuron().getActivation();
+                weights[compteur] = inputConnections.get(compteur).getWeight().getValue();
+            }
+            input = inputFunction.getValue(activations, weights);
+            activation = outputFunction.getValue(input);
+        } catch (Exception e) {
+            // Nothing
         }
-        input = inputFunction.getValue(activations, weights);
-        activation = outputFunction.getValue(input);
     }
 }
