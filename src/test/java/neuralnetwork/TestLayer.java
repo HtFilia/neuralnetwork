@@ -23,10 +23,14 @@
  */
 package neuralnetwork;
 
+import input.InputFunction;
+import input.LinearCombination;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import output.OutputFunction;
+import output.Sigmoid;
 
 /**
  *
@@ -36,15 +40,34 @@ public class TestLayer {
     
     public static NeuralNetwork neural;
     
+    public static InputFunction inputFunction;
+    
+    public static OutputFunction outputFunction;
+    
     @BeforeClass
     public static void initNetwork() {
         neural = new NeuralNetwork();
+        int[] numberLayers = {2, 1};
+        inputFunction = new LinearCombination();
+        outputFunction = new Sigmoid();
+        neural.init(0, numberLayers, inputFunction, outputFunction);
     }
     
     @Test
     public void CreationLayerTest() {
-        Layer layer = new Layer(neural);
+        Layer layer = new Layer(neural, "hidden");
         assertNotEquals(null, layer);
+        neural.reset();
         assertEquals("Layer #0", layer.getName());
+    }
+    
+    @Test
+    public void NeuronInLayerTest() {
+        Layer layer = new Layer(neural, "hidden");
+        layer.addNeuron(new Neuron(layer, inputFunction, outputFunction));
+        assertEquals(1, layer.getNeurons().size());
+        Neuron newNeuron = new Neuron(layer, inputFunction, outputFunction);
+        layer.addNeuron(newNeuron);
+        assertEquals(2, layer.getNeurons().size());
     }
 }

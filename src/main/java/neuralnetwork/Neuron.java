@@ -68,8 +68,8 @@ public class Neuron {
         this.outputFunction = outputFunction;
         this.inputConnections = new ArrayList<>();
         this.outputConnections = new ArrayList<>();
-        String name = "Neuron #" + layer.getNeurons().size() + ", " + layer.getName();
-        this.name = name;
+        String neuronName = "Neuron #" + layer.getNeurons().size() + ", " + layer.getName();
+        this.name = neuronName;
     }
     
     public String getName() {
@@ -112,6 +112,14 @@ public class Neuron {
         return outputFunction;
     }
     
+    public boolean hasOutputConnectionTo(Neuron outNeuron) {
+        return outputConnections.stream().anyMatch((connection) -> (connection.getOutNeuron().equals(outNeuron)));
+    }
+    
+    public boolean hasInputConnectionFrom(Neuron inNeuron) {
+        return inputConnections.stream().anyMatch((connection) -> (connection.getInNeuron().equals(inNeuron)));
+    }
+    
     public void connectOutNeuron(Neuron outNeuron) {
         Connection connection = new Connection(this, outNeuron);
         outputConnections.add(connection);
@@ -120,7 +128,11 @@ public class Neuron {
     
     public void connectOutLayer(Layer outLayer) {
         for (int countNeuron = 0; countNeuron < outLayer.getNeurons().size() - 1; countNeuron++) {
-            connectOutNeuron(outLayer.getNeurons().get(countNeuron));
+            //connectOutNeuron(outLayer.getNeurons().get(countNeuron));
+            Connection connection = new Connection(this, outLayer.getNeurons().get(countNeuron));
+            System.out.println(outLayer.getNeurons().size());
+            outputConnections.add(connection);
+            outLayer.getNeurons().get(countNeuron).getInputConnections().add(connection);
         }
     }
     
@@ -154,5 +166,25 @@ public class Neuron {
         } catch (Exception e) {
             // Nothing
         }
+    }
+    
+    public void showInputConnections() {
+        System.out.println(name + "'s Input Connections (" + inputConnections.size() + ") :");
+        inputConnections.forEach((connection) -> {
+            System.out.println("Connected to " + connection.getInNeuron().getName());
+        });
+    }
+    
+    public void showOutputConnections() {
+        System.out.println(name + "'s Output Connections (" + outputConnections.size() + ") :");
+        outputConnections.forEach((connection) -> {
+            System.out.println("Connected to " + connection.getOutNeuron().getName());
+        });
+    }
+    
+    public void reset() {
+        this.input = 0d;
+        this.activation = 0d;
+        this.error = 0d;
     }
 }

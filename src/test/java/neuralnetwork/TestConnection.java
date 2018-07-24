@@ -84,12 +84,21 @@ public class TestConnection {
     
     @Test
     public void ConnectNeuronToLayerTest() {
+//        Layer layer2 = new Layer(neural);
+//        Layer layer3 = new Layer(neural);
+//        Neuron inNeuron = new Neuron(layer2, inputFunction, outputFunction);
+//        Neuron outNeuron = new Neuron(layer3, inputFunction, outputFunction);
+//        inNeuron.connectOutLayer(layer3);
+//        assertEquals(1, inNeuron.getOutputConnections().size());
+//        assertEquals(1, outNeuron.getInputConnections().size());
+//        assertEquals(inNeuron.getOutputConnections().get(0), outNeuron.getInputConnections().get(0));
         Layer layer2 = new Layer(neural);
-        Neuron inNeuron = new Neuron(layer, inputFunction, outputFunction);
-        Neuron outNeuron = new Neuron(layer2, inputFunction, outputFunction);
-        inNeuron.connectOutLayer(layer2);
-        assertEquals(1, inNeuron.getOutputConnections().size());
-        assertEquals(1, outNeuron.getInputConnections().size());
-        assertEquals(inNeuron.getOutputConnections().get(0), outNeuron.getInputConnections().get(0));
+        Layer layer3 = new Layer(neural);
+        Neuron inNeuron = new Neuron(layer2, inputFunction, outputFunction);
+        Neuron outNeuron = new Neuron(layer3, inputFunction, outputFunction);
+        layer2.addNeuron(inNeuron);
+        layer3.addNeuron(outNeuron);
+        inNeuron.connectOutLayer(layer3);
+        inNeuron.showOutputConnections();
     }
 }

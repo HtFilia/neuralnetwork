@@ -83,7 +83,7 @@ public class TestNeuralNetwork {
         neural.calculateValues();
         double[] expected = {1};
         neural.calculateErrors(expected);
-        System.out.println("output: " + neural.getOutputLayer().getNeurons().get(0).getActivation());
-        System.out.println("error: " + neural.getOutputLayer().getNeurons().get(0).getError());
+        //System.out.println("output: " + neural.getOutputLayer().getNeurons().get(0).getActivation());
+        //System.out.println("error: " + neural.getOutputLayer().getNeurons().get(0).getError());
     }
 }

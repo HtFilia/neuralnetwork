@@ -26,7 +26,9 @@ package neuralnetwork;
 import input.InputFunction;
 import input.LinearCombination;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import output.OutputFunction;
@@ -41,6 +43,8 @@ public class TestNeuron {
    public static NeuralNetwork neural;
    
    public static Layer layer;
+   
+   
   
    public static InputFunction inputFunction;
    
@@ -49,7 +53,8 @@ public class TestNeuron {
    @BeforeClass
    public static void initNetworkAndLayer() {
        neural = new NeuralNetwork();
-       layer = new Layer(neural);
+       int[] numberNeurons = {2, 1};
+       neural.init(0, numberNeurons, inputFunction, outputFunction);
        inputFunction = new LinearCombination();
        outputFunction = new Sigmoid();
    }
@@ -59,5 +64,26 @@ public class TestNeuron {
        Neuron neuron = new Neuron(layer, inputFunction, outputFunction);
        assertNotEquals(null, neuron);
        assertEquals("Neuron #0, Layer #0", neuron.getName());
+   }
+   
+   @Test
+   public void ConnectionBetweenNeuronsTest() {
+       layer.reset();
+       Neuron inNeuron = new Neuron(layer, inputFunction, outputFunction);
+       Neuron outNeuron = new Neuron(layer, inputFunction, outputFunction);
+       layer.addNeuron(inNeuron);
+       layer.addNeuron(outNeuron);
+       System.out.println(layer.getNeurons().size());
+       assertFalse(inNeuron.hasInputConnectionFrom(outNeuron));
+       assertFalse(inNeuron.hasOutputConnectionTo(outNeuron));
+       inNeuron.connectOutNeuron(outNeuron);
+       assertTrue(inNeuron.hasOutputConnectionTo(outNeuron));
+       assertFalse(inNeuron.hasInputConnectionFrom(outNeuron));
+   }
+   
+   @Test
+   public void ConnectionNeuronToLayerTest() {
+       layer.reset();
+       System.out.println(layer.getNeurons().size());
    }
 }

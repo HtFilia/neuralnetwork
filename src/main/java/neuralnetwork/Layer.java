@@ -40,14 +40,34 @@ public class Layer {
     
     private List<Neuron> neurons;
     
-    public Layer(NeuralNetwork neuralNetwork) {
+    public Layer(NeuralNetwork neuralNetwork, String typeLayer) {
         if (neuralNetwork == null) {
             throw new IllegalArgumentException("Neural Network can't be null.");
         }
         this.neuralNetwork = neuralNetwork;
         this.neurons = new ArrayList<>();
-        String name = "Layer #" + neuralNetwork.getHiddenLayers().size();
-        this.name = name;
+        String nameLayer = "Layer #" + neuralNetwork.getHiddenLayers().size();
+        this.name = nameLayer;
+        switch(typeLayer) {
+            case "input":
+                initAsInputLayer();
+            case "output":
+                initAsOutputLayer();
+            case "hidden":
+                initAsHiddenLayer();
+        }
+    }
+    
+    private void initAsInputLayer() {
+        neuralNetwork.setInputLayer(this);
+    }
+    
+    private void initAsOutputLayer() {
+        neuralNetwork.setOutputLayer(this);
+    }
+    
+    private void initAsHiddenLayer() {
+        neuralNetwork.addHiddenLayer(this);
     }
     
     public String getName() {
@@ -56,6 +76,10 @@ public class Layer {
     
     public List<Neuron> getNeurons() {
         return neurons;
+    }
+    
+    public void addNeuron(Neuron neuron) {
+        neurons.add(neuron);
     }
     
     public void addNeuron(InputFunction inputFunction, OutputFunction outputFunction) {
@@ -77,6 +101,12 @@ public class Layer {
     protected void calculateValues() {
         neurons.forEach((neuron) -> {
             neuron.calculateValue();
+        });
+    }
+    
+    public void reset() {
+        neurons.forEach((neuron) -> {
+            neuron.reset();
         });
     }
 }
