@@ -56,8 +56,8 @@ public class TestNeuralNetwork {
     @Test
     public void RandomizedWeigthsTest() {
         NeuralNetwork neural = new NeuralNetwork();
-        Layer inputLayer = new Layer(neural);
-        Layer outputLayer = new Layer(neural);
+        Layer inputLayer = new Layer(neural, "input");
+        Layer outputLayer = new Layer(neural, "output");
         int[] numberNeurons = {4, 5};
         neural.init(2, numberNeurons, inputLayer, outputLayer, inputFunction, outputFunction);
         neural.getHiddenLayers().forEach((Layer layer) -> {
@@ -72,14 +72,14 @@ public class TestNeuralNetwork {
     @Test
     public void ErrorsTest() {
         NeuralNetwork neural = new NeuralNetwork();
-        Layer inputLayer = new Layer(neural);
+        Layer inputLayer = new Layer(neural, "input");
         inputLayer.addNeurons(2, inputFunction, outputFunction);
-        Layer outputLayer = new Layer(neural);
+        Layer outputLayer = new Layer(neural, "output");
         outputLayer.addNeuron(inputFunction, outputFunction);
         int[] numberNeurons = {2};
         double[] inputs = {0.0, 1.0};
         neural.init(1, numberNeurons, inputLayer, outputLayer, inputFunction, outputFunction);
-        neural.setInputLayer(inputs);
+        neural.setInputs(inputs);
         neural.calculateValues();
         double[] expected = {1};
         neural.calculateErrors(expected);

@@ -49,7 +49,7 @@ public class TestConnection {
     @BeforeClass
     public static void initNeuralNetwork() {
         neural = new NeuralNetwork();
-        layer = new Layer(neural);
+        layer = new Layer(neural, "input");
         inputFunction = new LinearCombination();
         outputFunction = new Sigmoid();
     }
@@ -92,8 +92,8 @@ public class TestConnection {
 //        assertEquals(1, inNeuron.getOutputConnections().size());
 //        assertEquals(1, outNeuron.getInputConnections().size());
 //        assertEquals(inNeuron.getOutputConnections().get(0), outNeuron.getInputConnections().get(0));
-        Layer layer2 = new Layer(neural);
-        Layer layer3 = new Layer(neural);
+        Layer layer2 = new Layer(neural, "input");
+        Layer layer3 = new Layer(neural, "output");
         Neuron inNeuron = new Neuron(layer2, inputFunction, outputFunction);
         Neuron outNeuron = new Neuron(layer3, inputFunction, outputFunction);
         layer2.addNeuron(inNeuron);

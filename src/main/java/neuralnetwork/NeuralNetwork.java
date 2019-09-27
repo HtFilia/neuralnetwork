@@ -56,7 +56,9 @@ public class NeuralNetwork {
         return outputLayer;
     }
     
-    public void init(int numberLayers, int[] numberNeurons, 
+    public void init(int numberLayers, int[] numberNeurons,
+            Layer inputLayer,
+            Layer outputLayer,
             InputFunction inputFunction, 
             OutputFunction outputFunction) {
         if (numberLayers + 2 != numberNeurons.length) {
@@ -68,30 +70,41 @@ public class NeuralNetwork {
         if (outputFunction == null) {
             throw new IllegalArgumentException("Output Function can't be null");
         }
-        setInputLayer(new Layer(this, "input"));
+        if (inputLayer == null) {
+            throw new IllegalArgumentException("Input Layer can't be null");
+        }
+        if (outputLayer == null) {
+            throw new IllegalArgumentException("Output Layer can't be null");
+        }
+        
+        setInputLayer(inputLayer);
         inputLayer.addNeurons(numberNeurons[0], inputFunction, outputFunction);
         for (int incrementLayers = 0; incrementLayers < numberLayers + 1; incrementLayers++) {
             Layer layer = new Layer(this, "hidden");
             layer.addNeurons(numberNeurons[incrementLayers + 1], inputFunction, outputFunction);
             hiddenLayers.add(layer);            
         }
-        setOutputLayer(new Layer(this, "output"));
+        setOutputLayer(outputLayer);
         outputLayer.addNeurons(numberNeurons[numberLayers + 1], inputFunction, outputFunction);
         addBiases();
         connectLayers();
         randomizeWeights();
     }
     
-    private void setInputLayer(Layer layer) {
+    void setInputLayer(Layer layer) {
         this.inputLayer = layer;
     }
     
-    private void addHiddenLayer(Layer layer) {
+    void addHiddenLayer(Layer layer) {
         this.hiddenLayers.add(layer);
     }
     
-    private void setOutputLayer(Layer layer) {
+    void setOutputLayer(Layer layer) {
         this.outputLayer = layer;
+    }
+    
+    void setInputs(double[] inputs) {
+        this.inputLayer.setInputs(inputs);
     }
     
     private void connectLayers() {
